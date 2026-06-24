@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-server
+  namespace: qm2026
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-server
+  template:
+    metadata:
+      labels:
+        app: go-server
+    spec:
+      containers:
+      - name: go-server
+        image: ZOT_IP:5000/go-server:latest
+        ports:
+        - containerPort: 50051
+        env:
+        - name: RABBITMQ_URL
+          value: "amqp://guest:guest@rabbitmq:5672/"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-server
+  namespace: qm2026
+spec:
+  selector:
+    app: go-server
+  ports:
+  - port: 50051
+    targetPort: 50051

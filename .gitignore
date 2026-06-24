@@ -1,0 +1,13 @@
+# Rust build artifacts
+proyecto2/rust-api/target/
+
+# Go build artifacts
+proyecto2/go-client/go-client
+proyecto2/go-server/go-server
+proyecto2/go-consumer/go-consumer
+
+# General
+*.exe
+*.out
+__pycache__/
+*.pyc

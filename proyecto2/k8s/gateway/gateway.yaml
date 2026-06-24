@@ -1,0 +1,18 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: qm2026-gateway-class
+spec:
+  controllerName: networking.gke.io/gateway
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: qm2026-gateway
+  namespace: qm2026
+spec:
+  gatewayClassName: qm2026-gateway-class
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80

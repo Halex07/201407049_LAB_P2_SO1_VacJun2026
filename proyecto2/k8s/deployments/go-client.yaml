@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-client
+  namespace: qm2026
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-client
+  template:
+    metadata:
+      labels:
+        app: go-client
+    spec:
+      containers:
+      - name: go-client
+        image: ZOT_IP:5000/go-client:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: GRPC_SERVER_URL
+          value: "go-server:50051"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-client
+  namespace: qm2026
+spec:
+  selector:
+    app: go-client
+  ports:
+  - port: 8080
+    targetPort: 8080
