@@ -15,14 +15,14 @@ spec:
     spec:
       containers:
       - name: go-consumer
-        image: ZOT_IP:5000/go-consumer:latest
+        image: gcr.io/sopes1-p2-201407049/go-consumer:latest
         env:
         - name: RABBITMQ_URL
           value: "amqp://guest:guest@rabbitmq:5672/"
         - name: VALKEY_URL
           value: "valkey-service:6379"
         - name: ASSIGNED_TEAM
-          value: "GTM"
+          value: "ESP"
         resources:
           requests:
             memory: "128Mi"

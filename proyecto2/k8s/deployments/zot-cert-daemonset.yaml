@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: zot-cert-installer
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: zot-cert-installer
+  template:
+    metadata:
+      labels:
+        app: zot-cert-installer
+    spec:
+      hostPID: true
+      hostNetwork: true
+      initContainers:
+      - name: install-cert
+        image: alpine:latest
+        securityContext:
+          privileged: true
+        command:
+        - sh
+        - -c
+        - |
+          mkdir -p /host/etc/containerd/certs.d/34.48.90.23:5000
+          cat > /host/etc/containerd/certs.d/34.48.90.23:5000/hosts.toml << 'EOF'
+          server = "https://34.48.90.23:5000"
+          [host."https://34.48.90.23:5000"]
+            capabilities = ["pull", "resolve"]
+            skip_verify = true
+          EOF
+          nsenter --mount=/proc/1/ns/mnt -- systemctl restart containerd
+        volumeMounts:
+        - name: host-etc
+          mountPath: /host/etc
+      containers:
+      - name: pause
+        image: gcr.io/google_containers/pause:3.1
+      volumes:
+      - name: host-etc
+        hostPath:
+          path: /etc

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kvm-enabler
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: kvm-enabler
+  template:
+    metadata:
+      labels:
+        app: kvm-enabler
+    spec:
+      hostPID: true
+      hostIPC: true
+      hostNetwork: true
+      initContainers:
+      - name: kvm-enabler
+        image: alpine:latest
+        securityContext:
+          privileged: true
+        command:
+        - sh
+        - -c
+        - |
+          modprobe kvm || true
+          modprobe kvm_intel || modprobe kvm_amd || true
+          chmod 666 /dev/kvm || true
+          echo "KVM setup done"
+        volumeMounts:
+        - name: dev
+          mountPath: /dev
+        - name: lib-modules
+          mountPath: /lib/modules
+      containers:
+      - name: pause
+        image: gcr.io/google-containers/pause:3.1
+      volumes:
+      - name: dev
+        hostPath:
+          path: /dev
+      - name: lib-modules
+        hostPath:
+          path: /lib/modules

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: rust-api
-        image: ZOT_IP:5000/rust-api:latest
+        image: gcr.io/sopes1-p2-201407049/rust-api:latest
         ports:
         - containerPort: 8080
         env:

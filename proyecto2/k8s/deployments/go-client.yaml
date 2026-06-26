@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: go-client
-        image: ZOT_IP:5000/go-client:latest
+        image: gcr.io/sopes1-p2-201407049/go-client:latest
         ports:
         - containerPort: 8080
         env:
