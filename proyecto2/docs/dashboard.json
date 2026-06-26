@@ -1,0 +1,99 @@
+{
+  "dashboard": {
+    "id": 2,
+    "uid": "ffqcd3ywtl69sd",
+    "title": "Q.M.2026.K8s - Mundial Dashboard",
+    "refresh": "1m",
+    "time": {"from": "now-7d", "to": "now"},
+    "panels": [
+      {
+        "id": 1,
+        "title": "Max Goles Predichos (Local)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+        "datasource": "Valkey",
+        "options": {"reduceOptions": {"calcs": ["lastNotNull"]}},
+        "targets": [{"refId": "A", "query": "GET goals:home:5", "type": "timeseries"}]
+      },
+      {
+        "id": 2,
+        "title": "Min Goles Predichos (Local)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+        "datasource": "Valkey",
+        "targets": [{"refId": "A", "query": "GET goals:home:0", "type": "timeseries"}]
+      },
+      {
+        "id": 3,
+        "title": "Max Goles Predichos (Visitante)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0},
+        "datasource": "Valkey",
+        "targets": [{"refId": "A", "query": "GET goals:away:5", "type": "timeseries"}]
+      },
+      {
+        "id": 4,
+        "title": "Min Goles Predichos (Visitante)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 18, "y": 0},
+        "datasource": "Valkey",
+        "targets": [{"refId": "A", "query": "GET goals:away:0", "type": "timeseries"}]
+      },
+      {
+        "id": 5,
+        "title": "Moda Goles Predichos (Local)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 4},
+        "datasource": "Valkey",
+        "targets": [{"refId": "A", "query": "GET goals:home:2", "type": "timeseries"}]
+      },
+      {
+        "id": 6,
+        "title": "Moda Goles Predichos (Visitante)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 6, "y": 4},
+        "datasource": "Valkey",
+        "targets": [{"refId": "A", "query": "GET goals:away:2", "type": "timeseries"}]
+      },
+      {
+        "id": 7,
+        "title": "Top Equipos con Mas Victorias",
+        "type": "bargauge",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+        "datasource": "Valkey",
+        "targets": [
+          {"refId": "A", "query": "GET team:ESP:wins", "type": "timeseries", "legend": "ESP"},
+          {"refId": "B", "query": "GET team:MEX:wins", "type": "timeseries", "legend": "MEX"},
+          {"refId": "C", "query": "GET team:ARG:wins", "type": "timeseries", "legend": "ARG"},
+          {"refId": "D", "query": "GET team:BRA:wins", "type": "timeseries", "legend": "BRA"},
+          {"refId": "E", "query": "GET team:GTM:wins", "type": "timeseries", "legend": "GTM"}
+        ]
+      },
+      {
+        "id": 8,
+        "title": "PAIS/EQUIPO ASIGNADO: ESP",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 8},
+        "datasource": "Valkey",
+        "targets": [{"refId": "A", "query": "GET team:ESP:total_predictions", "type": "timeseries"}]
+      },
+      {
+        "id": 9,
+        "title": "Total Predicciones",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 6, "y": 8},
+        "datasource": "Valkey",
+        "targets": [{"refId": "A", "query": "GET total_predictions", "type": "timeseries"}]
+      },
+      {
+        "id": 10,
+        "title": "Serie Temporal ESP - Goles como Local",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 12},
+        "datasource": "Valkey",
+        "targets": [{"refId": "A", "query": "LRANGE team:ESP:timeseries 0 100", "type": "timeseries"}]
+      }
+    ]
+  },
+  "overwrite": true
+}
